@@ -3,6 +3,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./style.css">
+        <script src="./calculate.js"></script>
     </head>
 <body>
 
@@ -17,19 +18,18 @@
                 <label id="ih6f" class="label">Rate Plan<br /></label>
             </div>
 
-            <select name="ratePlan" id="ix76f" class="select" onchange="calculatePrice()">
+            <select name="ratePlan" id="ratePlanIndex" class="select" onchange="calculatePrice()">
                 <option value="Magenta Max">Magenta Max</option>
                 <option value="Magenta">Magenta</option>
                 <option value="Essentials">Essentials</option>
             </select>
 
             <label id="izy6" class="label">Number of Lines</label>
-            <input type="number" id="il5yz" class="input" oninput="calculatePrice()">
+            <input type="number" id="lineCount" class="input" oninput="calculatePrice()">
 
             <label id="iqk2k" class="label">Discount Type<br /></label>
-            <select name="discountType" id="ie6cr" class="select" onchange="calculatePrice()">
+            <select name="discountType" id="discountIndex" class="select" onchange="calculatePrice()">
                 <option value="None">None</option>
-                <option value="Hometown">Hometown</option>
                 <option value="Senior">Senior</option>
                 <option value="Military">Military</option>
             </select>
@@ -43,11 +43,11 @@
             <label id="additionalCostLabel" class="label">Additional Monthly Plan Cost<br /></label>
             <input name="additionalCost" type="number" id="additionalCostInput" class="input" onchange="calculatePrice()" />
 
-            <label id="in2q5" class="label">p360 Line 1 Cost<br /></label>
-            <input name="p360 line 1" type="number" id="ix7uj" class="input" onchange="calculatePrice()" />
+            <label id="1p360l" class="label">p360 Line 1 Cost<br /></label>
+            <input name="p360 line 1" type="number" id="1p360" class="input" onchange="calculatePrice()" />
 
-            <label id="iqmw9" class="label">p360 Line 2 Cost</label>
-            <input name="p360 line 2" type="number" id="ion51" class="input" onchange="calculatePrice()" />
+            <label id="2p360l" class="label">p360 Line 2 Cost</label>
+            <input name="p360 line 2" type="number" id="2p360" class="input" onchange="calculatePrice()" />
 
             <label id="3p360l" class="label">p360 Line 3 Cost</label>
             <input name="p360 line 3" type="number" id="3p360" class="input" onchange="calculatePrice()" />
@@ -92,221 +92,4 @@
     </div>
   </div>
 </body>
-<script>
-
-    var cost = 0;
-    const na = 0;
-    const hometown = 1;
-    const senior = 2;
-    const military = 3;
-    const taxRate = 1.0825;
-    const maxLineCost = [90, 60, 35];
-    const magentaLineCost = [75, 55, 25];
-    const essentialsLineCost = [65, 35, 20]
-    const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-
-    function discountSwitch() {
-        var lineCount = document.getElementById('il5yz').value;
-        var discountIndex = document.getElementById('ie6cr').selectedIndex;
-        var ratePlanIndex = document.getElementById('ix76f').selectedIndex;
-
-        switch (discountIndex) {
-            case hometown:
-                cost *= 0.75;     
-                break;
-            case senior:
-                cost -= clamp(lineCount, 0, 2) * 20;
-                break;
-            case military:
-            if (ratePlanIndex != 2)
-                cost -= lineCount * 15;
-                break;
-        }
-    }
-
-    function calculatePrice() {
-        cost = 0;
-
-        updateP360();
-        var autoPay = document.getElementById('autopay').checked;
-        var lineCount = document.getElementById('il5yz').value;
-        var discountIndex = document.getElementById('ie6cr').selectedIndex;
-        var ratePlanIndex = document.getElementById('ix76f').selectedIndex;
-        var deviceCost = document.getElementById('deviceCostInput').value;
-        var additionalCost = document.getElementById('additionalCostInput').value;
-
-
-        console.log("yay");
-
-        console.log(lineCount);
-        for (var lineIndex = 0; lineIndex < lineCount; lineIndex++ ) {
-
-            // up to 8 lines with autopay
-            if (lineIndex <= 7 && autoPay)
-                cost -= 5; // take $5 minus discount from each line
-
-            console.log("yay");
-            switch (ratePlanIndex) {
-                case 2:
-                    cost += (essentialsLineCost[clamp(lineIndex, 0, 2) ] );
-                    cost *= taxRate;
-                    break;
-
-                case 1:
-                    cost += (magentaLineCost[clamp(lineIndex, 0, 2) ] );
-                    break;
-
-                case 0:
-                    cost += (maxLineCost[clamp(lineIndex, 0, 2)]);
-                    break;
-            }
-
-        }
-
-        discountSwitch();
-
-        cost += Number(deviceCost);
-        cost += Number(additionalCost);
-
-        var finalCost = document.getElementById('finalPrice');
-        finalCost.innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
-    }
-
-function updateP360() {
-	var lineCount = document.getElementById('il5yz').value;
-	
-	var line1Label = document.getElementById('in2q5');
-	var line1Input = document.getElementById('ix7uj');
-	line1Label.style.display = "none";
-	line1Input.style.display = "none";
-	
-	var line2Label = document.getElementById('iqmw9');
-	var line2Input = document.getElementById('ion51');
-    line2Label.style.display = "none";
-	line2Input.style.display = "none";
-	
-	var line3Label = document.getElementById('3p360l');
-	var line3Input = document.getElementById('3p360');
-    line3Label.style.display = "none";
-    line3Input.style.display = "none";
-	
-	var line4Label = document.getElementById('4p360l');
-	var line4Input = document.getElementById('4p360');
-	line4Label.style.display = "none";
-	line4Input.style.display = "none";
-	
-	var line5Label = document.getElementById('5p360l');
-	var line5Input = document.getElementById('5p360');
-    line5Label.style.display = "none";
-	line5Input.style.display = "none";
-	
-	var line6Label = document.getElementById('6p360l');
-	var line6Input = document.getElementById('6p360');
-	line6Label.style.display = "none";
-    line6Input.style.display = "none";
-
-    var line7Label = document.getElementById('7p360l');
-    var line7Input = document.getElementById('7p360');
-    line7Label.style.display = "none";
-    line7Input.style.display = "none";
-
-    var line8Label = document.getElementById('8p360l');
-    var line8Input = document.getElementById('8p360');
-    line8Label.style.display = "none";
-    line8Input.style.display = "none";
-
-    var line9Label = document.getElementById('9p360l');
-    var line9Input = document.getElementById('9p360');
-    line9Label.style.display = "none";
-    line9Input.style.display = "none";
-
-    var line10Label = document.getElementById('10p360l');
-    var line10Input = document.getElementById('10p360');
-    line10Label.style.display = "none";
-    line10Input.style.display = "none";
-
-    var line11Label = document.getElementById('11p360l');
-    var line11Input = document.getElementById('11p360');
-    line11Label.style.display = "none";
-    line11Input.style.display = "none";
-
-    var line12Label = document.getElementById('12p360l');
-    var line12Input = document.getElementById('12p360');
-    line12Label.style.display = "none";
-    line12Input.style.display = "none";
-
-    if (lineCount >= 1) {
-        cost += Number(line1Input.value) * 1.065;
-		line1Label.style.display = "initial";
-		line1Input.style.display = "initial";
-	}	
-	
-    if (lineCount >= 2) {
-        cost += Number(line2Input.value) * 1.065;
-        line2Label.style.display = "initial";
-		line2Input.style.display = "initial";
-	}
-	
-    if (lineCount >= 3) {
-        cost += Number(line3Input.value) * 1.065;
-	    line3Label.style.display = "initial";
-	    line3Input.style.display = "initial";
-	}
-	
-    if (lineCount >= 4) {
-        cost += Number(line4Input.value) * 1.065;
-		line4Label.style.display = "initial";
-		line4Input.style.display = "initial";
-	}
-	
-    if (lineCount >= 5) {
-        cost += Number(line5Input.value) * 1.065;
-	    line5Label.style.display = "initial";
-		line5Input.style.display = "initial";
-	}
-	
-    if (lineCount >= 6) {
-        cost += Number(line6Input.value) * 1.065;
-		line6Label.style.display = "initial";
-		line6Input.style.display = "initial";
-    }
-
-    if (lineCount >= 7) {
-        cost += Number(line7Input.value) * 1.065;
-        line7Label.style.display = "initial";
-        line7Input.style.display = "initial";
-    }
-
-    if (lineCount >= 8) {
-        cost += Number(line8Input.value) * 1.065;
-        line8Label.style.display = "initial";
-        line8Input.style.display = "initial";
-    }
-
-    if (lineCount >= 9) {
-        cost += Number(line9Input.value) * 1.065;
-        line9Label.style.display = "initial";
-        line9Input.style.display = "initial";
-    }
-
-    if (lineCount >= 10) {
-        cost += Number(line10Input.value) * 1.065;
-        line10Label.style.display = "initial";
-        line10Input.style.display = "initial";
-    }
-
-    if (lineCount >= 11) {
-        cost += Number(line11Input.value) * 1.065;
-        line11Label.style.display = "initial";
-        line11Input.style.display = "initial";
-    }
-
-    if (lineCount >= 12) {
-        cost += Number(line12Input.value) * 1.065;
-        line12Label.style.display = "initial";
-        line12Input.style.display = "initial";
-    }
-	
-}
-</script>
 </body><html>
