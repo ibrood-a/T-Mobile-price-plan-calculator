@@ -45,32 +45,31 @@ function calculatePrice() {
         if (lineIndex <= 7 && autoPay)
             cost -= 5; // take $5 minus discount from each line
 
-    console.log("yay");
-    switch (ratePlanIndex) {
-        case 2:
-            cost += (essentialsLineCost[clamp(lineIndex, 0, 2)]);
-            cost *= taxRate;
-            break;
+        switch (ratePlanIndex) {
+            case 2:
+                cost += (essentialsLineCost[clamp(lineIndex, 0, 2)]);
+                cost *= taxRate;
+                break;
 
-        case 1:
-            cost += (magentaLineCost[clamp(lineIndex, 0, 2)]);
-            break;
+            case 1:
+                cost += (magentaLineCost[clamp(lineIndex, 0, 2)]);
+                break;
 
-        case 0:
-            cost += (maxLineCost[clamp(lineIndex, 0, 2)]);
-            break;
+            case 0:
+                cost += (maxLineCost[clamp(lineIndex, 0, 2)]);
+                break;
+        }
+
     }
 
+    discountSwitch();
+
+    cost += Number(deviceCost);
+    cost += Number(additionalCost);
+
+    var finalCost = document.getElementById('finalPrice');
+    finalCost.innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
 }
-
-discountSwitch();
-
-cost += Number(deviceCost);
-cost += Number(additionalCost);
-
-var finalCost = document.getElementById('finalPrice');
-finalCost.innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
-    }
 
 function updateP360() {
     var lineCount = document.getElementById('lineCount').value;
