@@ -1,5 +1,6 @@
 var cost = 0;
 const na = 0;
+var validPrice = false;
 const senior = 1;
 const military = 2;
 const insider = 3;
@@ -10,6 +11,7 @@ const essentialsLineCost = [65, 35, 20]
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function discountSwitch() {
+	validPrice = true;
     var lineCount = document.getElementById('lineCount').value;
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
     var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
@@ -21,14 +23,18 @@ function discountSwitch() {
         case military:
             if (ratePlanIndex != 2)
                 cost -= lineCount * 15;
-			else
+			else {
+				validPrice = false;
 				document.getElementById('finalPrice').innerHTML = "Military plan cannot be used with Essentials";
+			}
+			break;
         case insider:
             if (ratePlanIndex == 0)
                 cost *= 0.80;
-			else		
+			else {	
+				validPrice = false;		
 				document.getElementById('finalPrice').innerHTML = "Insider code can only be used with Magenta Max";
-	
+			}
             break;
     }
 }
@@ -44,8 +50,6 @@ function calculatePrice() {
     var deviceCost = document.getElementById('deviceCostInput').value;
     var additionalCost = document.getElementById('additionalCostInput').value;
 
-
-    console.log("yay");
 
     console.log(lineCount);
     for (var lineIndex = 0; lineIndex < lineCount; lineIndex++) {
@@ -74,9 +78,12 @@ function calculatePrice() {
 
 	discountSwitch();
 
+	if (!validPrice)
+		return;
+	
 	cost += Number(deviceCost);
 	cost += Number(additionalCost);
-=
+
 	document.getElementById('finalPrice').innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
 }
 
