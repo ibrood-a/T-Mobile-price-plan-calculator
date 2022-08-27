@@ -2,6 +2,7 @@ var cost = 0;
 const na = 0;
 const senior = 1;
 const military = 2;
+const insider = 3;
 const taxRate = 1.0825;
 const maxLineCost = [90, 60, 35];
 const magentaLineCost = [75, 55, 25];
@@ -20,6 +21,14 @@ function discountSwitch() {
         case military:
             if (ratePlanIndex != 2)
                 cost -= lineCount * 15;
+			else
+				document.getElementById('finalPrice').innerHTML = "Military plan cannot be used with Essentials";
+        case insider:
+            if (ratePlanIndex == 0)
+                cost *= 0.80;
+			else		
+				document.getElementById('finalPrice').innerHTML = "Insider code can only be used with Magenta Max";
+	
             break;
     }
 }
@@ -45,30 +54,30 @@ function calculatePrice() {
         if (lineIndex <= 7 && autoPay)
             cost -= 5; // take $5 minus discount from each line
 
-        switch (ratePlanIndex) {
-            case 2:
-                cost += (essentialsLineCost[clamp(lineIndex, 0, 2)]);
-                cost *= taxRate;
-                break;
+		console.log("yay");
+		switch (ratePlanIndex) {
+			case 2:
+				cost += (essentialsLineCost[clamp(lineIndex, 0, 2)]);
+				cost *= taxRate;
+				break;
 
-            case 1:
-                cost += (magentaLineCost[clamp(lineIndex, 0, 2)]);
-                break;
+			case 1:
+				cost += (magentaLineCost[clamp(lineIndex, 0, 2)]);
+				break;
 
-            case 0:
-                cost += (maxLineCost[clamp(lineIndex, 0, 2)]);
-                break;
-        }
+			case 0:
+				cost += (maxLineCost[clamp(lineIndex, 0, 2)]);
+				break;
+		}
 
-    }
+	}
 
-    discountSwitch();
+	discountSwitch();
 
-    cost += Number(deviceCost);
-    cost += Number(additionalCost);
-
-    var finalCost = document.getElementById('finalPrice');
-    finalCost.innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
+	cost += Number(deviceCost);
+	cost += Number(additionalCost);
+=
+	document.getElementById('finalPrice').innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
 }
 
 function updateP360() {
