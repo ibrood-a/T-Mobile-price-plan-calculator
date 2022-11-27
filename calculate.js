@@ -16,13 +16,18 @@ function discountSwitch() {
 
     switch (discountIndex) {
         case senior:
-            cost -= clamp(lineCount, 0, 2) * 20;
-            break;
+			if (lineCount > 2 && ratePlanIndex == 2)
+				document.getElementById('finalPrice').innerHTML = "Essentials 55+ is limited to 2 lines";
+			if (lineCount > 4)
+				document.getElementById('finalPrice').innerHTML = "55+ Plans are limited to 4 lines";
+			else
+				cost -= clamp(lineCount, 0, 2) * 20;
         case military:
             if (ratePlanIndex != 2)
                 cost -= lineCount * 15;
 			else
 				document.getElementById('finalPrice').innerHTML = "Military plan cannot be used with Essentials";
+            break;
         case insider:
             if (ratePlanIndex == 0)
                 cost *= 0.80;
@@ -58,7 +63,6 @@ function calculatePrice() {
 		switch (ratePlanIndex) {
 			case 2:
 				cost += (essentialsLineCost[clamp(lineIndex, 0, 2)]);
-				cost *= taxRate;
 				break;
 
 			case 1:
@@ -73,11 +77,34 @@ function calculatePrice() {
 	}
 
 	discountSwitch();
-
+	
+	if (ratePlanIndex == 2)
+		cost *= 1.12;
+		
 	cost += Number(deviceCost);
 	cost += Number(additionalCost);
-=
+
 	document.getElementById('finalPrice').innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
+	
+	if (lineCount > 6 && ratePlanIndex == 2)
+		document.getElementById('finalPrice').innerHTML = "Essentials is limited to six lines";
+	
+	switch (discountIndex) {
+        case senior:
+			if (lineCount > 2 && ratePlanIndex == 2)
+				document.getElementById('finalPrice').innerHTML = "Essentials 55+ is limited to 2 lines";
+			if (lineCount > 4)
+				document.getElementById('finalPrice').innerHTML = "55+ Plans are limited to 4 lines";
+			break;
+        case military:
+            if (ratePlanIndex == 2)
+				document.getElementById('finalPrice').innerHTML = "Military plan cannot be used with Essentials";
+            break;
+        case insider:
+            if (ratePlanIndex != 0)
+				document.getElementById('finalPrice').innerHTML = "Insider code can only be used with Magenta Max";
+            break;
+    }
 }
 
 function updateP360() {
