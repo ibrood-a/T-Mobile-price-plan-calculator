@@ -29,6 +29,8 @@ function correctMistakes() {
                 document.getElementById('finalPrice').innerHTML = "55+ Plans are limited to 4 lines";
             break;
         case military:
+            if (freeLine) 
+                document.getElementById('finalPrice').innerHTML = "Military is not Eligible for Free Line"
             if (ratePlanIndex == 2)
                 document.getElementById('finalPrice').innerHTML = "Military plan cannot be used with Essentials";
             break;
