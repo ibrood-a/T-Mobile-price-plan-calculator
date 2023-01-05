@@ -1,15 +1,11 @@
 var cost = 0;
-const na = 0;
-const senior = 1;
-const military = 2;
-const insider = 3;
+const senior = 0;
+const military = 1;
+const insider = 2;
 const taxRate = 1.0825;
-const maxLineCost = [90, 60, 35];
-const max55LineCost = [70, 30, 50];
-const magentaLineCost = [75, 55, 25];
-const magenta55LineCost = [55, 25, 40];
-const essentialsLineCost = [65, 35, 20];
-const essentials55LineCost = [45, 20]
+const maxLineCost = [[70, 30, 50], [90, 60, 35]];
+const magentaLineCost = [[55, 25, 40], [75, 55, 25]];
+const essentialsLineCost = [[45, 20], [65, 35, 20]];
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function correctMistakes() {
@@ -51,33 +47,26 @@ function calculatePrice() {
     var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
 
-    console.log("yay");
-
-    console.log(lineCount);
-    for (var lineIndex = 0; lineIndex < lineCount; lineIndex++) {
-        // dont charge them for free line
-        if (lineIndex === 3 && freeLine) 
-            continue;
-
+    for (var line = 0; line < lineCount; line++) {
         // up to 8 lines with autopay
-        if (lineIndex <= 7 && autoPay)
+        if (line <= 7 && autoPay)
             cost -= 5; // take $5 minus discount from each line
 
-        console.log("yay");
-        switch (ratePlanIndex) {
+        console.log(freeLine);
+        if (freeLine && line >= 2)
+            line--;
+
+        switch (ratePlanIndex) {    
             case 2:
-                (discountIndex === senior) ?    cost += (essentials55LineCost[clamp(lineIndex, 0, 1)]) :
-                                                cost += (essentialsLineCost[clamp(lineIndex, 0, 2)]);
+                cost += (essentialsLineCost[clamp(discountIndex, 0, 1)][clamp(line, 0, 1)]);
                 break;
 
             case 1:
-                (discountIndex === senior) ?    cost += (magenta55LineCost[clamp(lineIndex, 0, 2)]) :
-                                                cost += (magentaLineCost[clamp(lineIndex, 0, 2)]);
+                cost += (magentaLineCost[(discountIndex === senior)[clamp(line, 0, 1)]]);
                 break;
 
             case 0:
-                (discountIndex === senior) ?    cost += (max55LineCost[clamp(lineIndex, 0, 2)]) :
-                                                cost += (maxLineCost[clamp(lineIndex, 0, 2)]);
+                cost += (magentaLineCost[(discountIndex === senior)[clamp(line, 0, 1)]]);
                 break;
         }
     }
