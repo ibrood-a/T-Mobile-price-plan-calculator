@@ -3,9 +3,9 @@ const senior = 1;
 const military = 2;
 const insider = 3;
 const taxRate = 1.0825;
-const maxLineCost = [[90, 60, 35], [70, 30, 50]];
-const magentaLineCost = [[75, 55, 25], [55, 25, 40]];
-const essentialsLineCost = [[65, 35, 20], [45, 20]];
+const maxLineCost = [[90, 60, 35], [70, 30, 50], [75, 35, 25]];
+const magentaLineCost = [[75, 55, 25], [55, 25, 40], [60, 30, 15]];
+const essentialsLineCost = [[65, 35, 20], [45, 20], [0, 0, 0]];
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function correctMistakes() {
@@ -23,7 +23,7 @@ function correctMistakes() {
         case senior:
             if (freeLine) 
                 document.getElementById('finalPrice').innerHTML = "55+ is not Eligible for Free Line"
-            if (lineCount > 2 && ratePlanIndex == 2)
+            if (lineCount > 2 && ratePlanIndex === 2)
                 document.getElementById('finalPrice').innerHTML = "Essentials 55+ is limited to 2 lines";
             if (lineCount > 4)
                 document.getElementById('finalPrice').innerHTML = "55+ Plans are limited to 4 lines";
@@ -31,7 +31,7 @@ function correctMistakes() {
         case military:
             if (freeLine) 
                 document.getElementById('finalPrice').innerHTML = "Military is not Eligible for Free Line"
-            if (ratePlanIndex == 2)
+            if (ratePlanIndex === 2)
                 document.getElementById('finalPrice').innerHTML = "Military plan cannot be used with Essentials";
             break;
         case insider:
@@ -48,12 +48,11 @@ function calculatePrice() {
     var lineCount = document.getElementById('lineCount').value;
     var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
-    var isSenior = (discountIndex === senior) ? true : false;
+    var discountTypeIndex = (discountIndex === senior) ? 1 : (discountIndex == military) ? 2 : 0;
     for (var line = 0; line < lineCount; line++) {
         console.log(line);
         console.log(freeLine);
-        console.log(isSenior);
-        console.log(discountIndex);
+        console.log(discountTypeIndex);
         if (freeLine && line === 2) {
             console.log("broken");
             continue;
@@ -61,15 +60,15 @@ function calculatePrice() {
 
         switch (ratePlanIndex) {    
             case 2:
-                cost += (essentialsLineCost[+isSenior][clamp(line, 0, 2)]);
+                cost += (essentialsLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
                 break;
 
             case 1:
-                cost += (magentaLineCost[+isSenior][clamp(line, 0, 2)]);
+                cost += (magentaLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
                 break;
 
             case 0:
-                cost += (maxLineCost[+isSenior][clamp(line, 0, 2)]);
+                cost += (maxLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
                 break;
         }
 
@@ -78,16 +77,9 @@ function calculatePrice() {
             cost -= 5; // take $5 minus discount from each line
     }
  
-    switch (discountIndex) {
-        case military:
-            if (ratePlanIndex != 2)
-                cost -= lineCount * 15;
-            break;
-        case insider:
-            if (ratePlanIndex == 0)
+            if (discountIndex === insider && ratePlanIndex === 0)
                 cost *= 0.80;
-            break;
-    }
+
 
     if (ratePlanIndex == 2)
         cost *= 1.12;
