@@ -1,11 +1,11 @@
 var cost = 0;
-const senior = 0;
-const military = 1;
-const insider = 2;
+const senior = 1;
+const military = 2;
+const insider = 3;
 const taxRate = 1.0825;
-const maxLineCost = [[70, 30, 50], [90, 60, 35]];
-const magentaLineCost = [[55, 25, 40], [75, 55, 25]];
-const essentialsLineCost = [[45, 20], [65, 35, 20]];
+const maxLineCost = [[90, 60, 35], [70, 30, 50]];
+const magentaLineCost = [[75, 55, 25], [55, 25, 40]];
+const essentialsLineCost = [[65, 35, 20], [45, 20]];
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function correctMistakes() {
@@ -41,34 +41,37 @@ function correctMistakes() {
 
 function calculatePrice() {
     updateP360();
+    var isSenior = discountIndex === senior;
     var autoPay = document.getElementById('autopay').checked;
     var freeLine = document.getElementById('freeLine').checked;
     var lineCount = document.getElementById('lineCount').value;
     var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
-
     for (var line = 0; line < lineCount; line++) {
-        // up to 8 lines with autopay
-        if (line <= 7 && autoPay)
-            cost -= 5; // take $5 minus discount from each line
-
+        console.log(line);
         console.log(freeLine);
-        if (freeLine && line >= 2)
-            line--;
+        if (freeLine && line === 2) {
+            console.log("broken");
+            continue;
+        }
 
         switch (ratePlanIndex) {    
             case 2:
-                cost += (essentialsLineCost[clamp(discountIndex, 0, 1)][clamp(line, 0, 1)]);
+                cost += (essentialsLineCost[+isSenior][clamp(line, 0, 2)]);
                 break;
 
             case 1:
-                cost += (magentaLineCost[(discountIndex === senior)[clamp(line, 0, 1)]]);
+                cost += (magentaLineCost[+isSenior][clamp(line, 0, 2)]);
                 break;
 
             case 0:
-                cost += (magentaLineCost[(discountIndex === senior)[clamp(line, 0, 1)]]);
+                cost += (maxLineCost[+isSenior][clamp(line, 0, 2)]);
                 break;
         }
+
+        // up to 8 lines with autopay
+        if (line <= 7 && autoPay)
+            cost -= 5; // take $5 minus discount from each line
     }
  
     switch (discountIndex) {
