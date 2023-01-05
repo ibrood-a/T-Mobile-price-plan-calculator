@@ -43,15 +43,17 @@ function correctMistakes() {
 
 function calculatePrice() {
     updateP360();
-    var isSenior = discountIndex === senior;
     var autoPay = document.getElementById('autopay').checked;
     var freeLine = document.getElementById('freeLine').checked;
     var lineCount = document.getElementById('lineCount').value;
     var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
+    var isSenior = (discountIndex === senior) ? true : false;
     for (var line = 0; line < lineCount; line++) {
         console.log(line);
         console.log(freeLine);
+        console.log(isSenior);
+        console.log(discountIndex);
         if (freeLine && line === 2) {
             console.log("broken");
             continue;
