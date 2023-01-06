@@ -77,8 +77,8 @@ function calculatePrice() {
             cost -= 5; // take $5 minus discount from each line
     }
  
-            if (discountIndex === insider && ratePlanIndex === 0)
-                cost *= 0.80;
+    if (discountIndex === insider && ratePlanIndex === 0)
+        cost *= 0.80;
 
 
     if (ratePlanIndex == 2)
@@ -104,7 +104,6 @@ function updateP360() {
 
     cost = 0;
     for (var i = 1; i <= 12; i++) {
-        cost += Number(document.getElementById(i.toString() + 'p360').value) * 1.0825;
         hideElement(i.toString() + 'p360l');
         hideElement(i.toString() + 'p360');
     }
