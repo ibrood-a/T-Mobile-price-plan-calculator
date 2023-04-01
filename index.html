@@ -9,104 +9,151 @@
 </head>
 
 <body>
-
   <body onload="calculatePrice()">
-    <!-- Tab links -->
-    <div class="tab">
-      <button class="tablinks"
-        onclick="location.href = 'http://main.d3chpxxu21g7dl.amplifyapp.com/compare.html'"> Compare </button>
-      <button class="tablinks"
-        onclick="location.href = 'https://main.d3chpxxu21g7dl.amplifyapp.com/index.html'"> Calculate </button>
-    </div>
-
-    <div id="ir3u" class="row">
-      <div id="ilbe" class="cell">
-        <form id="i8tg" class="form">
-
-          <h1 id="finalPrice">Total Monthly Cost: </h1>
-
-          <div class="form-group">
-            <label id="ih6f" class="label">Rate Plan<br /></label>
+    <div class="split left">
+      <div class="centered">
+        <div id="ir3u" class="row">
+          <div id="ilbe" class="cell">
+            <form id="i8tg" class="form">
+    
+              <h1 id="finalPrice">Total Monthly Cost: </h1>
+    
+              <div class="form-group">
+                <label id="ih6f" class="label">Rate Plan<br /></label>
+              </div>
+    
+              <select name="ratePlan" id="ratePlanIndex" class="select" onchange="calculatePrice()">
+                <option value="Magenta Max">Magenta Max/One Plus/Ultimate</option>
+                <option value="Magenta">Magenta/One Plan/Advanced</option>
+                <option value="Essentials">Essentials</option>
+              </select>
+    
+              <label id="izy6" class="label">Number of Lines</label>
+              <input type="number" id="lineCount" class="input" oninput="calculatePrice()">
+    
+              <label id="iqk2k" class="label">Discount Type<br /></label>
+              <select name="discountType" id="discountIndex" class="select" onchange="calculatePrice()">
+                <option value="None">None</option>
+                <option value="Senior">Senior</option>
+                <option value="Military/First Responder">Military</option>
+                <option value="Insider">Insider</option>
+              </select>
+    
+              <input type="checkbox" id="autopay" value="enable" onchange="calculatePrice()">
+              <label for="autopay">Autopay?</label><br>
+    
+              <input type="checkbox" id="freeLine" value="enable" onchange="calculatePrice()">
+              <label for="freeLine">Third Line On Us?</label><br>
+    
+              <label id="deviceCostLabel" class="label">Additional Monthly Device Cost<br /></label>
+              <input name="deviceCost" type="number" id="deviceCostInput" class="input" onchange="calculatePrice()" />
+    
+              <label id="additionalCostLabel" class="label">Additional Monthly Plan Cost<br /></label>
+              <input name="additionalCost" type="number" id="additionalCostInput" class="input"
+                onchange="calculatePrice()" />
+    
+              <label id="1p360l" class="label">p360 Line 1 Cost<br /></label>
+              <input name="p360 line 1" type="number" id="1p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="2p360l" class="label">p360 Line 2 Cost</label>
+              <input name="p360 line 2" type="number" id="2p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="3p360l" class="label">p360 Line 3 Cost</label>
+              <input name="p360 line 3" type="number" id="3p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="4p360l" class="label">p360 Line 4 Cost</label>
+              <input name="p360 line 4" type="number" id="4p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="5p360l" class="label">p360 Line 5 Cost</label>
+              <input name="p360 line 5" type="number" id="5p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="6p360l" class="label">p360 Line 6 Cost</label>
+              <input name="p360 line 6" type="number" id="6p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="7p360l" class="label">p360 Line 7 Cost<br /></label>
+              <input name="p360 line 7" type="number" id="7p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="8p360l" class="label">p360 Line 8 Cost</label>
+              <input name="p360 line 8" type="number" id="8p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="9p360l" class="label">p360 Line 9 Cost</label>
+              <input name="p360 line 9" type="number" id="9p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="10p360l" class="label">p360 Line 10 Cost</label>
+              <input name="p360 line 10" type="number" id="10p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="11p360l" class="label">p360 Line 11 Cost</label>
+              <input name="p360 line 11" type="number" id="11p360" class="input" onchange="calculatePrice()" />
+    
+              <label id="12p360l" class="label">p360 Line 12 Cost</label>
+              <input name="p360 line 12" type="number" id="12p360" class="input" onchange="calculatePrice()" />
+    
+              <div id="ijdz" class="form-group">
+              </div>
+              <div id="i180q" class="form-group">
+              </div>
+              <div class="form-group">
+              </div>
+              <div id="i05t4" class="form-group">
+                <button type="button" id="iiv8f" class="button" onchange="calculatePrice()">Calculate</button>
+              </div>
+            </form>
           </div>
-
-          <select name="ratePlan" id="ratePlanIndex" class="select" onchange="calculatePrice()">
-            <option value="Magenta Max">Magenta Max/One Plus/Ultimate</option>
-            <option value="Magenta">Magenta/One Plan/Advanced</option>
-            <option value="Essentials">Essentials</option>
-          </select>
-
-          <label id="izy6" class="label">Number of Lines</label>
-          <input type="number" id="lineCount" class="input" oninput="calculatePrice()">
-
-          <label id="iqk2k" class="label">Discount Type<br /></label>
-          <select name="discountType" id="discountIndex" class="select" onchange="calculatePrice()">
-            <option value="None">None</option>
-            <option value="Senior">Senior</option>
-            <option value="Military/First Responder">Military</option>
-            <option value="Insider">Insider</option>
-          </select>
-
-          <input type="checkbox" id="autopay" value="enable" onchange="calculatePrice()">
-          <label for="autopay">Autopay?</label><br>
-
-          <input type="checkbox" id="freeLine" value="enable" onchange="calculatePrice()">
-          <label for="freeLine">Third Line On Us?</label><br>
-
-          <label id="deviceCostLabel" class="label">Additional Monthly Device Cost<br /></label>
-          <input name="deviceCost" type="number" id="deviceCostInput" class="input" onchange="calculatePrice()" />
-
-          <label id="additionalCostLabel" class="label">Additional Monthly Plan Cost<br /></label>
-          <input name="additionalCost" type="number" id="additionalCostInput" class="input"
-            onchange="calculatePrice()" />
-
-          <label id="1p360l" class="label">p360 Line 1 Cost<br /></label>
-          <input name="p360 line 1" type="number" id="1p360" class="input" onchange="calculatePrice()" />
-
-          <label id="2p360l" class="label">p360 Line 2 Cost</label>
-          <input name="p360 line 2" type="number" id="2p360" class="input" onchange="calculatePrice()" />
-
-          <label id="3p360l" class="label">p360 Line 3 Cost</label>
-          <input name="p360 line 3" type="number" id="3p360" class="input" onchange="calculatePrice()" />
-
-          <label id="4p360l" class="label">p360 Line 4 Cost</label>
-          <input name="p360 line 4" type="number" id="4p360" class="input" onchange="calculatePrice()" />
-
-          <label id="5p360l" class="label">p360 Line 5 Cost</label>
-          <input name="p360 line 5" type="number" id="5p360" class="input" onchange="calculatePrice()" />
-
-          <label id="6p360l" class="label">p360 Line 6 Cost</label>
-          <input name="p360 line 6" type="number" id="6p360" class="input" onchange="calculatePrice()" />
-
-          <label id="7p360l" class="label">p360 Line 7 Cost<br /></label>
-          <input name="p360 line 7" type="number" id="7p360" class="input" onchange="calculatePrice()" />
-
-          <label id="8p360l" class="label">p360 Line 8 Cost</label>
-          <input name="p360 line 8" type="number" id="8p360" class="input" onchange="calculatePrice()" />
-
-          <label id="9p360l" class="label">p360 Line 9 Cost</label>
-          <input name="p360 line 9" type="number" id="9p360" class="input" onchange="calculatePrice()" />
-
-          <label id="10p360l" class="label">p360 Line 10 Cost</label>
-          <input name="p360 line 10" type="number" id="10p360" class="input" onchange="calculatePrice()" />
-
-          <label id="11p360l" class="label">p360 Line 11 Cost</label>
-          <input name="p360 line 11" type="number" id="11p360" class="input" onchange="calculatePrice()" />
-
-          <label id="12p360l" class="label">p360 Line 12 Cost</label>
-          <input name="p360 line 12" type="number" id="12p360" class="input" onchange="calculatePrice()" />
-
-          <div id="ijdz" class="form-group">
-          </div>
-          <div id="i180q" class="form-group">
-          </div>
-          <div class="form-group">
-          </div>
-          <div id="i05t4" class="form-group">
-            <button type="button" id="iiv8f" class="button" onchange="calculatePrice()">Calculate</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
+    
+    <div class="split right">
+      <div class="centered">
+      
+  <div id="ir3u" class="row">
+    <div id="ilbe" class="cell">
+        <form id="i8tg" class="form">
+
+          <h1 id="finalPrice">Today's Cost: </h1>
+
+          <label id="DCCNumberLabel" class="label">Activation Charges</label>
+          <input type="number" id="DCCNumber" class="input" value="0" oninput="calculateDownPayment()">
+
+          <label id="deviceCostLabel" class="label">Total Device Cost<br /></label>
+          <input name="deviceCost" type="number" id="deviceCostInput" value="0" class="input" onchange="calculateDownPayment()" />
+
+          <label id="downPaymentsLabel" class="label">Total Device Downpayments<br /></label>
+          <input name="downPayments" type="number" id="downPaymentInput" value="0" class="input" onchange="calculateDownPayment()" />
+
+          <label id="financingLimitLabel" class="label">EIP Financing Limit<br /></label>
+          <input name="financingLimit" type="number" id="financingLimitInput" value="0" class="input" onchange="calculateDownPayment()" />
+
+          <label id="currentEIPBalanceLabel" class="label">Current Ammount Financed<br /></label>
+          <input name="currentEIPBalance" type="number" id="currentEIPBalanceInput" value="0" class="input" onchange="calculateDownPayment()" />
+
+          <label id="accessoryCostLabel" class="label">Accessory Cost<br /></label>
+          <input name="accessoryCost" type="number" id="accessoryCostInput" value="0" class="input" onchange="calculateDownPayment()" />
+
+          <input type="checkbox" id="accessoryFinanceCheck" value="enable" onchange="calculateDownPayment()">
+          <label for="accessoryFinance">Finance Accessories?</label><br>
+
+          <input type="checkbox" id="halfDownCheck" value="enable" onchange="calculateDownPayment()">
+          <label for="halfDown">50% Down on Accessories?</label><br>
+
+            <div id="ijdz" class="form-group">
+            </div>
+			
+            <div id="i180q" class="form-group">
+            </div>
+			
+            <div class="form-group">
+            </div>
+            <div id="i05t4" class="form-group">
+                <button type="button" id="iiv8f" class="button" onchange="calculatePrice()">Calculate</button>
+            </div>
+        </form>
+    </div>
+  </div>
+      </div>
+    </div>
+
+ 
   </body>
 </body>
 <html>
