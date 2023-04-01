@@ -43,14 +43,13 @@
               <label for="autopay">Autopay?</label><br>
     
               <input type="checkbox" id="freeLine" value="enable" onchange="calculatePrice()">
-              <label for="freeLine">Third Line On Us?</label><br>
+              <label for="freeLine">3rd Line Free?</label><br>
     
-              <label id="deviceCostLabel" class="label">Additional Monthly Device Cost<br /></label>
+              <label id="deviceCostLabel" class="label">Device Cost<br /></label>
               <input name="deviceCost" type="number" id="deviceCostInput" class="input" onchange="calculatePrice()" />
     
-              <label id="additionalCostLabel" class="label">Additional Monthly Plan Cost<br /></label>
-              <input name="additionalCost" type="number" id="additionalCostInput" class="input"
-                onchange="calculatePrice()" />
+              <label id="additionalCostLabel" class="label">Extra Plan Cost<br /></label>
+              <input name="additionalCost" type="number" id="additionalCostInput" class="input" onchange="calculatePrice()" />
     
               <label id="1p360l" class="label">p360 Line 1 Cost<br /></label>
               <input name="p360 line 1" type="number" id="1p360" class="input" onchange="calculatePrice()" />
@@ -118,13 +117,13 @@
           <label id="deviceCostLabel" class="label">Total Device Cost<br /></label>
           <input name="deviceCost" type="number" id="deviceCostInput" value="0" class="input" onchange="calculateDownPayment()" />
 
-          <label id="downPaymentsLabel" class="label">Total Device Downpayments<br /></label>
+          <label id="downPaymentsLabel" class="label">Downpayments<br /></label>
           <input name="downPayments" type="number" id="downPaymentInput" value="0" class="input" onchange="calculateDownPayment()" />
 
-          <label id="financingLimitLabel" class="label">EIP Financing Limit<br /></label>
+          <label id="financingLimitLabel" class="label">EIP Limit<br /></label>
           <input name="financingLimit" type="number" id="financingLimitInput" value="0" class="input" onchange="calculateDownPayment()" />
 
-          <label id="currentEIPBalanceLabel" class="label">Current Ammount Financed<br /></label>
+          <label id="currentEIPBalanceLabel" class="label">Ammount Financed<br /></label>
           <input name="currentEIPBalance" type="number" id="currentEIPBalanceInput" value="0" class="input" onchange="calculateDownPayment()" />
 
           <label id="accessoryCostLabel" class="label">Accessory Cost<br /></label>
@@ -134,7 +133,7 @@
           <label for="accessoryFinance">Finance Accessories?</label><br>
 
           <input type="checkbox" id="halfDownCheck" value="enable" onchange="calculateDownPayment()">
-          <label for="halfDown">50% Down on Accessories?</label><br>
+          <label for="halfDown">50% Down?</label><br>
 
             <div id="ijdz" class="form-group">
             </div>
