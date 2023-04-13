@@ -14,35 +14,36 @@ function correctMistakes() {
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
     var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
 
-    document.getElementById('finalPrice').innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
+    document.getElementById('monthlyPrice').innerHTML = "Total Monthly Cost: " + parseFloat(cost).toFixed(2);
 
     if (lineCount > 6 && ratePlanIndex == 2)
-        document.getElementById('finalPrice').innerHTML = "Essentials is limited to six lines";
+        document.getElementById('monthlyPrice').innerHTML = "Essentials is limited to six lines";
 
     switch (discountIndex) {
         case senior:
             if (freeLine) 
-                document.getElementById('finalPrice').innerHTML = "55+ is not Eligible for Free Line"
+                document.getElementById('monthlyPrice').innerHTML = "55+ is not Eligible for Free Line"
             if (lineCount > 2 && ratePlanIndex === 2)
-                document.getElementById('finalPrice').innerHTML = "Essentials 55+ is limited to 2 lines";
+                document.getElementById('monthlyPrice').innerHTML = "Essentials 55+ is limited to 2 lines";
             if (lineCount > 4)
-                document.getElementById('finalPrice').innerHTML = "55+ Plans are limited to 4 lines";
+                document.getElementById('monthlyPrice').innerHTML = "55+ Plans are limited to 4 lines";
             break;
         case military:
             if (freeLine) 
-                document.getElementById('finalPrice').innerHTML = "Military is not Eligible for Free Line"
+                document.getElementById('monthlyPrice').innerHTML = "Military is not Eligible for Free Line"
             if (ratePlanIndex === 2)
-                document.getElementById('finalPrice').innerHTML = "Military plan cannot be used with Essentials";
+                document.getElementById('monthlyPrice').innerHTML = "Military plan cannot be used with Essentials";
             break;
         case insider:
             if (ratePlanIndex != 0)
-                document.getElementById('finalPrice').innerHTML = "Insider code can only be used with Magenta Max";
+                document.getElementById('monthlyPrice').innerHTML = "Insider code can only be used with Magenta Max";
             break;
     }
 }
 
 function calculatePrice() {
     updateP360();
+    calculateDownPayment();
     var autoPay = document.getElementById('autopay').checked;
     var freeLine = document.getElementById('freeLine').checked;
     var lineCount = document.getElementById('lineCount').value;
@@ -123,7 +124,7 @@ function updateP360() {
 
 function calculateDownPayment() {
     var DCCNumber = document.getElementById('DCCNumber').value;
-    var deviceCostInput = document.getElementById('deviceCostInput').value;
+    var deviceCostInput = document.getElementById('deviceCostInput2').value;
     var downPaymentInput = document.getElementById('downPaymentInput').value;
     var financingLimitInput = document.getElementById('financingLimitInput').value;
     var currentEIPBalanceInput = document.getElementById('currentEIPBalanceInput').value;
@@ -153,11 +154,18 @@ function calculateDownPayment() {
     else if (!accessoryFinanceCheck)
         accessoryDownPayment = accessoryCostInput;
 
-    var taxes = (parseFloat(deviceCostInput) + parseFloat(accessoryCostInput) + parseFloat(activationCost)) * taxRate;
+    var taxes = (parseFloat(deviceCostInput) + parseFloat(accessoryCostInput) + parseFloat(activationCost)) * (taxRate - 1);
     cost = parseFloat(downPayment) + parseFloat(taxes) + parseFloat(accessoryDownPayment) + parseFloat(activationCost);
 
-    document.getElementById('finalPrice').innerHTML = "Today's Cost: $" + parseFloat(cost).toFixed(2);
-    document.getElementById('taxesPaid').innerHTML = "Taxes: $" + parseFloat(taxes).toFixed(2);
-    document.getElementById('adjustedDownPayment').innerHTML = "Down Payment: $" + parseFloat(downPayment).toFixed(2);
-    document.getElementById('activationCost').innerHTML = "Activation Fees: $" + parseFloat(activationCost).toFixed(2);
+
+    console.log(deviceCostInput);
+    console.log(accessoryCostInput);
+    console.log(activationCost);
+    console.log(downPayment);
+    console.log(taxes);
+    console.log(accessoryDownPayment);
+    console.log(activationCost);
+    console.log(cost);
+
+    document.getElementById('todayPrice').innerHTML = "Today's Cost: $" + parseFloat(cost).toFixed(2);
 }
