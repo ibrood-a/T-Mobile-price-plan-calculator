@@ -14,7 +14,7 @@ function displayPrice() {
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
     var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
 
-    document.getElementById('monthlyPrice').innerHTML = "Monthly Cost: " + parseFloat(cost).toFixed(2);
+    document.getElementById('monthlyPrice').innerHTML = "Monthly Cost: $" + parseFloat(cost).toFixed(2);
 
     if (lineCount > 6 && ratePlanIndex == 4)
         document.getElementById('monthlyPrice').innerHTML = "Essentials is limited to six lines";
