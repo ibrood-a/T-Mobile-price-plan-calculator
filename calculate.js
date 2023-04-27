@@ -51,6 +51,9 @@ function calculatePrice() {
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
     var discountTypeIndex = (discountIndex === senior) ? 1 : (discountIndex == military) ? 2 : 0;
     for (var line = 0; line < lineCount; line++) {
+        if (line == 3 && freeLine) 
+            continue; 
+        
         switch (ratePlanIndex) {    
             case 4: // Essentials
                 cost += (essentialsLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
