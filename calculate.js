@@ -87,7 +87,7 @@ function calculatePrice() {
     
     // essentials is the only plan not tax inclusive 
     if (ratePlanIndex == 4)
-        cost *= 1.15;
+        cost *= 1.13;
 
     // do this after because taxes paid up front. 
     cost += Number(document.getElementById('deviceCostInput').value);
