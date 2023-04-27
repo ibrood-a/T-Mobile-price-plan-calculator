@@ -51,7 +51,7 @@ function calculatePrice() {
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
     var discountTypeIndex = (discountIndex === senior) ? 1 : (discountIndex == military) ? 2 : 0;
     for (var line = 0; line < lineCount; line++) {
-        if (line == 3 && freeLine) 
+        if (line == 2 && freeLine) 
             continue; 
         
         switch (ratePlanIndex) {    
