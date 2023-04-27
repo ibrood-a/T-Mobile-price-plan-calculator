@@ -60,16 +60,24 @@ function calculatePrice() {
         }
 
         switch (ratePlanIndex) {    
-            case 2:
+            case 4:
                 cost += (essentialsLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
                 break;
 
-            case 1:
+            case 3:
                 cost += (magentaLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
                 break;
 
-            case 0:
+            case 2:
                 cost += (maxLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
+                break;
+                
+           case 1:
+                cost += (magentaLineCost[+discountTypeIndex][clamp(line, 0, 2)] + 5);
+                break;
+
+            case 0:
+                cost += (maxLineCost[+discountTypeIndex][clamp(line, 0, 2)] + 5);
                 break;
         }
 
