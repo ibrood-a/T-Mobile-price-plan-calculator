@@ -6,6 +6,7 @@ const taxRate = 1.0825;
 const maxLineCost = [[90, 60, 35], [70, 30, 50], [75, 35, 25]];
 const magentaLineCost = [[75, 55, 25], [55, 25, 40], [60, 30, 15]];
 const essentialsLineCost = [[65, 35, 20], [45, 20], [0, 0, 0]];
+const protectionTiers = [25, 18, 16, 13, 9, 7, 0];
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
 function displayPrice() {
@@ -122,7 +123,7 @@ function updateP360() {
     }
 
     for (var i = 1; i <= lineCount; i++) {
-        cost += Number(document.getElementById(i.toString() + 'p360').value) * 1.0825;
+        cost += protectionTiers[Number(document.getElementById(i.toString() + 'p360').selectedIndex)] * 1.0825;
         showElement(i.toString() + 'p360l');
         showElement(i.toString() + 'p360');
     }
@@ -130,8 +131,9 @@ function updateP360() {
 
 
 function calculateDownPayment() {
-    
-    var cost = 0;
+    var todayCost = 0;
+    var monthlyDeviceCost = 0;
+    var monthlyAccessoryCost = 0;
     var downPayment = 0;
     var activationCost = 0;
     var accessoryDownPayment = 0;
@@ -139,6 +141,7 @@ function calculateDownPayment() {
     var DCCNumber = document.getElementById('DCCNumber').value;
     var deviceCostInput = document.getElementById('deviceCostInput2').value;
     var downPaymentInput = document.getElementById('downPaymentInput').value;
+    var promoCreditInput = document.getElementById('promoCreditInput').value;
     var accessoryCostInput = document.getElementById('accessoryCostInput').value;
     var financingLimitInput = document.getElementById('financingLimitInput').value;
     var currentEIPBalanceInput = document.getElementById('currentEIPBalanceInput').value;
@@ -146,13 +149,16 @@ function calculateDownPayment() {
     var accessoryDownCheck = document.getElementById('halfDownCheck').checked;
     var accessoryFinanceCheck = document.getElementById('accessoryFinanceCheck').checked;
     
+    var financedCost = (deviceCostInput - downPaymentInput);
+    var availableFinancing = (financingLimitInput - currentEIPBalanceInput);
+    
     // if they wanna finance more than limit then the downpayment is greater of available or standard downpayment.
-    if ((deviceCostInput - downPaymentInput) >= (financingLimitInput - currentEIPBalanceInput)) {
-        downPayment = deviceCostInput - (financingLimitInput - currentEIPBalanceInput);
+    if (financedCost >= availableFinancing) {
+     	downPayment = deviceCostInput - availableFinancing;
+    	financedCost -= downPayment;
     }
-    else {
+    else 
         downPayment = downPaymentInput;
-    }
 
     // number of activations charged * $35
     activationCost = DCCNumber * 35;
@@ -160,15 +166,27 @@ function calculateDownPayment() {
     // financing accessories?
     if (accessoryFinanceCheck) {
         // 50% downpayment on the accessories. 
-        if (accessoryDownCheck)
-            accessoryDownPayment = accessoryCostInput * 0.5;
+        if (accessoryDownCheck) {
+        	monthlyAccessoryCost = accessoryDownPayment = accessoryCostInput * 0.5;
+        }
+        else {
+        	monthlyAccessoryCost = accessoryCostInput;
+        } 
     }
     else // not financing so full cost. 
         accessoryDownPayment = accessoryCostInput;
 
     var taxes = (parseFloat(deviceCostInput) + parseFloat(accessoryCostInput) + parseFloat(activationCost)) * (taxRate - 1);
-    cost = parseFloat(downPayment) + parseFloat(taxes) + parseFloat(accessoryDownPayment) + parseFloat(activationCost);
-
+    todayCost = parseFloat(downPayment) + parseFloat(taxes) + parseFloat(accessoryDownPayment) + parseFloat(activationCost);
+	monthlyDeviceCost = (parseFloat(financedCost) - parseFloat(promoCreditInput)) / 24;
+	monthlyAccessoryCost = parseFloat(monthlyAccessoryCost) / 12;
+	
+	var monthlyCost = parseFloat(monthlyDeviceCost) + parseFloat(monthlyAccessoryCost);
+	
+	console.log(monthlyDeviceCost);
+	console.log(monthlyAccessoryCost);
+	
     // update the price on user end. 
-    document.getElementById('todayPrice').innerHTML = "Today's Cost: $" + parseFloat(cost).toFixed(2);
+    document.getElementById('todayPrice').innerHTML = "Today's Cost: $" + parseFloat(todayCost).toFixed(2);
+    document.getElementById('monthlyDevicePrice').innerHTML = "Monthly Device Cost: $" + parseFloat(monthlyCost).toFixed(2);
 }
