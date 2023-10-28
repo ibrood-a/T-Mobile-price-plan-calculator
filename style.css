@@ -1,19 +1,25 @@
 * {
+  font-size: 1.5vw;
   box-sizing: border-box;
 }
 h1 {
+  font-size: 1.5vw;
   text-align: center;
 }
 body {
+  font-size: 1.5vw;
   margin: 1px;
 }
 .form{
+  text-align: center;  
+  font-size: 1.5vw;
   border-radius:1px;
   padding:1px 1px;
   background-color:rgba(146, 75, 75, 0);
 }
 .input{
-  width:100%;
+  font-size: 1.25vw;
+  width:90%;
   margin-bottom:5px;
   padding:3px 5px;
   border-radius:2px;
@@ -21,8 +27,72 @@ body {
   background-color:#c7c7c7;
   border:none;
 }
+
+
+  .checkbox-wrapper-65 *,
+  .checkbox-wrapper-65 ::after,
+  .checkbox-wrapper-65 ::before {
+    box-sizing: border-box;
+  }
+  .checkbox-wrapper-65 .cbx {
+    position: relative;
+    display: block;
+    float: left;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    background-color: #606062;
+    background-image: linear-gradient(#474749, #606062);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 1px rgba(0,0,0,0.15);
+    transition: all 0.15s ease;
+  }
+  .checkbox-wrapper-65 .cbx svg {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-dasharray: 17;
+    stroke-dashoffset: 17;
+    transform: translate3d(0, 0, 0);
+  }
+  .checkbox-wrapper-65 .cbx + span {
+    float: left;
+    margin-left: 6px;
+  }
+  .checkbox-wrapper-65 {
+    user-select: none;
+  }
+  .checkbox-wrapper-65 label {
+    display: inline-block;
+    cursor: pointer;
+  }
+  .checkbox-wrapper-65 input[type="checkbox"] {
+    display: none;
+    visibility: hidden;
+  }
+  .checkbox-wrapper-65 input[type="checkbox"]:checked + .cbx {
+    background-color: #606062;
+    background-image: linear-gradient(#255cd2, #1d52c1);
+  }
+  .checkbox-wrapper-65 input[type="checkbox"]:checked + .cbx svg {
+    stroke-dashoffset: 0;
+    transition: all 0.15s ease;
+  }
+
+/* Might want to wrap a span around your checkbox text */
+.checkboxtext
+{
+  /* Checkbox text */
+  font-size: 110%;
+  display: inline;
+}
 .select{
-  width:100%;
+  font-size: 1.25vw;
+  width:90%;
   margin-bottom:5px;
   padding:3px 5px;
   border-radius:2px;
@@ -31,22 +101,24 @@ body {
   border:none;
   height:30px;
 }
-.label{
-  width:100%;
+.label{ 
+  font-size: 1.5vw;
+  
   display:block;
 }
 .button{
-  width:100%;
-  margin:5px 0;
+  text-align: center;  
+  width:95%;
+  height: 5vw;
   background-color:#ff00ff;
-  border:none;
-  color:#fff;
-  border-radius:2px;
-  padding:3px 5px;
-  font-size:1em;
-  cursor:pointer;
+  color:rgb(5, 5, 5);
+}
+.button:hover{
+  background-color:#640064;
+  color:rgb(255, 253, 253);
 }
 .row{
+  font-size: 1.5vw;
   display:flex;
   justify-content:flex-start;
   align-items:stretch;
@@ -54,96 +126,20 @@ body {
   padding:5px;
 }
 .cell{
+  font-size: 1.5vw;
   min-height:75px;
   flex-grow:1;
   flex-basis:100%;
 }
 .columns {
+  text-align: center;  
   float: left;
   width: 50%;
 }
 /* Clear floats after the columns */
 .row:after {
+  font-size: 1.5vw;
   content: "";
   display: table;
   clear: both;
-}
-#in2q5{
-  width:50px;
-  display:inline;
-}
-#iqmw9{
-  width:80px;
-  display:flex;
-}
-#it3hz{
-  width:80px;
-  display:flex;
-}
-#iuvpn{
-  width:80px;
-  display:flex;
-}
-#ix7uj{
-  color:#000000;
-}
-#iw8ls{
-  color:#000000;
-}
-#isl2e{
-  color:#000000;
-}
-#ion51{
-  color:#000000;
-}
-@media (max-width: 992px){
-  #i8tg{
-    opacity:1;
-    color:#ff00ff;
-  }
-  #ix76f{
-    color:#ff00ff;
-  }
-  #ie6cr{
-    color:#000000;
-  }
-}
-@media (max-width: 768px){
-  .row{
-    flex-wrap:wrap;
-  }
-}
-@media (max-width: 480px){
-  #iqv98{
-    position:relative;
-    width:100px;
-    margin:0 auto;
-  }
-  #i6wx4{
-    width:880px;
-    margin:0 auto;
-    position:relative;
-    overflow:hidden;
-    white-space:nowrap;
-  }
-  #ixde7{
-    display:inline-block;
-    transition-delay:1ms;
-  }
-  #i8ofk{
-    position:absolute;
-    display:block;
-    cursor:pointer;
-    top:50%;
-    left:0;
-    margin-top:-25px;
-  }
-  #ioj6k{
-    position:absolute;
-    display:block;
-    cursor:pointer;
-    top:50%;
-    right:0;
-    margin-top:-25px;
-  }
 }

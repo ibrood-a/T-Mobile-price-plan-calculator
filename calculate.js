@@ -30,30 +30,31 @@ function displayPrice() {
         case senior:
             if (freeLine) 
                 document.getElementById('monthlyPrice').innerHTML = "55+ is not Eligible for Free Line"
-            if (lineCount > 2 && ratePlanIndex === 4)
+            else if (lineCount > 2 && ratePlanIndex === 5)
                 document.getElementById('monthlyPrice').innerHTML = "Essentials 55+ is limited to 2 lines";
-            if (lineCount > 4)
+            else if (lineCount > 4)
                 document.getElementById('monthlyPrice').innerHTML = "55+ Plans are limited to 4 lines";
             break;
         case military:
             if (freeLine) 
                 document.getElementById('monthlyPrice').innerHTML = "Military is not Eligible for Free Line"
-            if (ratePlanIndex === 4)
+            if (ratePlanIndex === 5)
                 document.getElementById('monthlyPrice').innerHTML = "Military plan cannot be used with Essentials";
             break;
         case insider:
             if (ratePlanIndex > 1)
-                document.getElementById('monthlyPrice').innerHTML = "Insider code can only be used with Go5G Plus";
+                document.getElementById('monthlyPrice').innerHTML = "Insider code can only be used with Go5G Plus/Next";
             break;
     }
 
-    if (lineCount > 12)
-        document.getElementById('monthlyPrice').innerHTML = "We can only do 12 lines in the store.";
+    if (lineCount > 8)
+        document.getElementById('monthlyPrice').innerHTML = "This tool is limited to calculating only up to 8 lines";
 }
 
 function calculatePrice() {
     updateP360();
-    calculateDownPayment();
+    //calculateDownPayment();
+    var hint = document.getElementById('hint').checked
     var autoPay = document.getElementById('autopay').checked;
     var freeLine = document.getElementById('freeLine').checked;
     var lineCount = document.getElementById('lineCount').value;
@@ -61,27 +62,42 @@ function calculatePrice() {
     var discountIndex = document.getElementById('discountIndex').selectedIndex;
     var discountTypeIndex = (discountIndex === senior) ? 1 : (discountIndex == military) ? 2 : 0;
 
+    var hintAutopay = (hint && autoPay) ? true : false;
+    console.log("hintAutopay Value: " + hintAutopay);
+
+    if (lineCount == 0 && hint)
+        cost += autoPay ? 50 : 55;
+    else if (hint) {
+        switch (ratePlanIndex) {
+            case 5: cost += (autoPay) ? 40 : 45; break;
+            case 4: cost += autoPay ? 40 : 45; break;
+            case 3: cost += autoPay ? 30 : 35; break;
+            case 2: cost += autoPay ? 40 : 45; break;
+            case 1: cost += autoPay ? 30 : 35; break;
+            case 0: cost += autoPay ? 30 : 35; break;
+        }
+    }
 
      for (var line = 0; line < lineCount; line++) {
 
         if (line == 2 && freeLine) {
             if (ratePlanIndex === 0) // go5G Next
-                cost += (go5GNextLineCost[+discountTypeIndex][clamp(line, 0, 2)] - 35);
+                cost += (go5GNextLineCost[discountTypeIndex][clamp(line, 0, 2)] - 35);
             else
                 continue;
         } else {
             switch (ratePlanIndex) {
                 case 7: // go5G Plus
-                    cost += (go5GPlusLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
+                    cost += (go5GPlusLineCost[discountTypeIndex][clamp(line, 0, 2)]);
                     break;
                 case 6: // go5G
-                    cost += (go5GLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
+                    cost += (go5GLineCost[discountTypeIndex][clamp(line, 0, 2)]);
                     break;
                 case 5: // Essentials
-                    cost += (essentialsLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
+                    cost += (essentialsLineCost[discountTypeIndex][clamp(line, 0, 2)]);
                     break;
                 case 4: // Magenta
-                    cost += (magentaLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
+                    cost += (magentaLineCost[discountTypeIndex][clamp(line, 0, 2)]);
                     break;
                 case 3: // Magenta Max
                     cost += (maxLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
@@ -99,7 +115,7 @@ function calculatePrice() {
         }
         
         // up to 8 lines with $5 autopay discount
-        if (line <= 7 && autoPay) {
+        if (line <= (7 - hintAutopay) && autoPay) {
             cost -= 5;
         }
 
@@ -139,8 +155,8 @@ function showElement(label) {
 function updateP360() {
 
     cost = 0;
-    for (var i = 1; i <= 12; i++) {
-        hideElement(i.toString() + 'p360l');
+    for (var i = 1; i <= 8; i++) {
+        hideElement('1p360l');
         hideElement(i.toString() + 'p360');
     }
 
@@ -151,12 +167,12 @@ function updateP360() {
 
     for (var i = 1; i <= lineCount; i++) {
         cost += protectionTiers[Number(document.getElementById(i.toString() + 'p360').selectedIndex)] * 1.0825;
-        showElement(i.toString() + 'p360l');
+        showElement('1p360l');
         showElement(i.toString() + 'p360');
     }
 }
 
-
+/*
 function calculateDownPayment() {
     var todayCost = 0;
     var monthlyDeviceCost = 0;
@@ -217,3 +233,4 @@ function calculateDownPayment() {
     document.getElementById('todayPrice').innerHTML = "Today's Cost: $" + parseFloat(todayCost).toFixed(2);
     document.getElementById('monthlyDevicePrice').innerHTML = "Monthly Device Cost: $" + parseFloat(monthlyCost).toFixed(2);
 }
+*/
