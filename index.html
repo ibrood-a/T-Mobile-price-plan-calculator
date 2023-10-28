@@ -14,7 +14,7 @@
           <div id="ilbe" class="cell">
             <form id="i8tg" class="form">
     
-            <h1 style="font-size: 2vw" id="monthlyPrice">Monthly Cost: </h1>
+            <h1 style="font-size: 3vw" id="monthlyPrice">Monthly Cost: </h1>
     
             <div class="columns">
               <div class="form-group">
@@ -33,8 +33,7 @@
               <label id="izy6" class="label">Number of Lines</label>
               <input type="number" id="lineCount" class="input" oninput="calculatePrice()">
     
-              <div>
-
+            <div>
               <label id="iqk2k" class="label">Discount Type<br /></label>
               <select name="discountType" id="discountIndex" class="select" onchange="calculatePrice()">
                 <option value="None">None</option>
@@ -44,45 +43,23 @@
               </select>
             </div>
 
-            <label id="deviceCostLabel" class="label">Device Cost<br /></label>
-            <input name="deviceCost" type="number" id="deviceCostInput" class="input" onchange="calculatePrice()" />
+            <div>
+              <label id="deviceCostLabel" class="label">Device Cost<br /></label>
+            <input name="deviceCost" type="number" id="deviceCostInput" class="input" onchange="calculatePrice()" /></div>
     
+            <div>
             <label id="additionalCostLabel" class="label">Extra Plan Cost<br /></label>
             <input name="additionalCost" type="number" id="additionalCostInput" class="input" onchange="calculatePrice()" />
+            </div>
             <div>
+              <input type="checkbox" id="autopay" value="enable" onchange="calculatePrice()">
+              <span class="checkboxtext">Autopay?</span>
          
-              
-              <div class="checkbox-wrapper-65">
-                <label for="autopay">
-                  <input type="checkbox" id="autopay" value="enable" onchange="calculatePrice()">
-                  <span class="cbx">
-                    <svg width="12px" height="11px" viewBox="0 0 12 11">
-                      <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
-                    </svg>
-                  </span>
-                  <span>Autopay</span>
-                </label>
-
-                <label for="freeLine">
-                  <input type="checkbox" id="freeLine" value="enable" onchange="calculatePrice()">
-                  <span class="cbx">
-                    <svg width="12px" height="11px" viewBox="0 0 12 11">
-                      <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
-                    </svg>
-                  </span>
-                  <span>Third Line Free</span>
-                </label>
-
-                <label for="hint">
-                  <input type="checkbox" id="hint" value="enable" onchange="calculatePrice()">
-                  <span class="cbx">
-                    <svg width="12px" height="11px" viewBox="0 0 12 11">
-                      <polyline points="1 6.29411765 4.5 10 11 1"></polyline>
-                    </svg>
-                  </span>
-                  <span>HINT</span>
-                </label>
-              </div>
+              <input type="checkbox" id="freeLine" value="enable" onchange="calculatePrice()">
+              <span class="checkboxtext">Third Line Free?</span>
+           
+              <input type="checkbox" id="hint" value="enable" onchange="calculatePrice()">
+              <span class="checkboxtext">HINT?</span>
             </div>
 
             </div>
