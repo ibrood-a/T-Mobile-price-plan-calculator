@@ -65,19 +65,6 @@ function calculatePrice() {
     var hintAutopay = (hint && autoPay) ? true : false;
     console.log("hintAutopay Value: " + hintAutopay);
 
-    if (lineCount == 0 && hint)
-        cost += autoPay ? 50 : 55;
-    else if (hint) {
-        switch (ratePlanIndex) {
-            case 5: cost += (autoPay) ? 40 : 45; break;
-            case 4: cost += autoPay ? 40 : 45; break;
-            case 3: cost += autoPay ? 30 : 35; break;
-            case 2: cost += autoPay ? 40 : 45; break;
-            case 1: cost += autoPay ? 30 : 35; break;
-            case 0: cost += autoPay ? 30 : 35; break;
-        }
-    }
-
      for (var line = 0; line < lineCount; line++) {
 
         if (line == 2 && freeLine) {
@@ -130,6 +117,19 @@ function calculatePrice() {
 
     // add the cost before that way taxes get calculated if needed. 
     cost += Number(document.getElementById('additionalCostInput').value);
+
+    if (lineCount == 0 && hint)
+        cost += autoPay ? 50 : 55;
+    else if (hint) {
+        switch (ratePlanIndex) {
+            case 5: cost += (autoPay) ? 40 : 45; break;
+            case 4: cost += autoPay ? 40 : 45; break;
+            case 3: cost += autoPay ? 30 : 35; break;
+            case 2: cost += autoPay ? 40 : 45; break;
+            case 1: cost += autoPay ? 30 : 35; break;
+            case 0: cost += autoPay ? 30 : 35; break;
+        }
+    }
 
     // All plans except Essentials are tax inclusive
     if (ratePlanIndex == 5) {
