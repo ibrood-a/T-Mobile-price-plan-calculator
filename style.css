@@ -1,24 +1,24 @@
 * {
-  font-size: 1.75vw;
+  font-size: 2.5vw;
   box-sizing: border-box;
 }
 h1 {
-  font-size: 1.75vw;
+  font-size: 2.5vw;
   text-align: center;
 }
 body {
-  font-size: 1.75vw;
+  font-size: 2.5vw;
   margin: 1px;
 }
 .form{
   text-align: center;  
-  font-size: 1.75vw;
+  font-size: 2.5vw;
   border-radius:1px;
   padding:1px 1px;
   background-color:rgba(146, 75, 75, 0);
 }
 .input{
-  font-size: 1.25vw;
+  font-size: 2vw;
   width:90%;
   margin-bottom:5px;
   padding:3px 5px;
@@ -26,6 +26,7 @@ body {
   color:#000000;
   background-color:#c7c7c7;
   border:none;
+  height:25px;
 }
 
 /* Might want to wrap a span around your checkbox text */
@@ -36,7 +37,7 @@ body {
   display: inline;
 }
 .select{
-  font-size: 1.25vw;
+  font-size: 2vw;
   width:90%;
   margin-bottom:5px;
   padding:3px 5px;
@@ -44,17 +45,17 @@ body {
   color:#000000;
   background-color:#c7c7c7;
   border:none;
-  height:30px;
+  height:25px;
 }
 .label{ 
-  font-size: 1.75vw;
+  font-size: 2.5vw;
   
   display:block;
 }
 .button{
   text-align: center;  
   width:90%;
-  height: 5vw;
+  height:25px;
   background-color:#ff00ff;
   color:rgb(5, 5, 5);
 }
@@ -63,7 +64,7 @@ body {
   color:rgb(255, 253, 253);
 }
 .row{
-  font-size: 1.75vw;
+  font-size: 2.5vw;
   display:flex;
   justify-content:flex-start;
   align-items:stretch;
@@ -71,7 +72,7 @@ body {
   padding:5px;
 }
 .cell{
-  font-size: 1.75vw;
+  font-size: 2.5vw;
   min-height:75px;
   flex-grow:1;
   flex-basis:100%;
@@ -87,7 +88,7 @@ body {
 }
 /* Clear floats after the columns */
 .row:after {
-  font-size: 1.75vw;
+  font-size: 2.5vw;
   content: "";
   display: table;
   clear: both;
