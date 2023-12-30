@@ -1,94 +1,96 @@
 * {
-  font-size: 2.5vw;
   box-sizing: border-box;
 }
+
 h1 {
-  font-size: 2.5vw;
   text-align: center;
 }
+
 body {
-  font-size: 2.5vw;
   margin: 1px;
 }
-.form{
-  text-align: center;  
-  font-size: 2.5vw;
-  border-radius:1px;
-  padding:1px 1px;
-  background-color:rgba(146, 75, 75, 0);
+
+.form {
+  text-align: center;
+  border-radius: 1px;
+  padding: 1px 1px;
+  background-color: rgba(146, 75, 75, 0);
 }
-.input{
-  font-size: 2vw;
-  width:90%;
-  margin-bottom:5px;
-  padding:3px 5px;
-  border-radius:2px;
-  color:#000000;
-  background-color:#c7c7c7;
-  border:none;
-  height:25px;
+
+.input {
+  width: 90%;
+  margin-bottom: 5px;
+  padding: 3px 5px;
+  border-radius: 2px;
+  color: #000000;
+  background-color: #c7c7c7;
+  border: none;
+  height: 25px;
+}
+
+.select {
+  width: 90%;
+  margin-bottom: 5px;
+  padding: 3px 5px;
+  border-radius: 2px;
+  color: #000000;
+  background-color: #c7c7c7;
+  border: none;
+  height: 25px;
 }
 
 /* Might want to wrap a span around your checkbox text */
-.checkboxtext
-{
+.checkboxtext {
   /* Checkbox text */
   font-size: 110%;
   display: inline;
 }
-.select{
-  font-size: 2vw;
-  width:90%;
-  margin-bottom:5px;
-  padding:3px 5px;
-  border-radius:2px;
-  color:#000000;
-  background-color:#c7c7c7;
-  border:none;
-  height:25px;
+
+.label {
+  width: 100%;
+  display: block;
 }
-.label{ 
-  font-size: 2.5vw;
-  
-  display:block;
+
+.button {
+  text-align: center;
+  width: 90%;
+  height: 25px;
+  background-color: #ff00ff;
+  color: rgb(5, 5, 5);
 }
-.button{
-  text-align: center;  
-  width:90%;
-  height:25px;
-  background-color:#ff00ff;
-  color:rgb(5, 5, 5);
+
+.button:hover {
+  background-color: #640064;
+  color: rgb(255, 253, 253);
 }
-.button:hover{
-  background-color:#640064;
-  color:rgb(255, 253, 253);
+
+.row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  padding: 5px;
 }
-.row{
-  font-size: 2.5vw;
-  display:flex;
-  justify-content:flex-start;
-  align-items:stretch;
-  flex-wrap:nowrap;
-  padding:5px;
+
+.cell {
+  min-height: 75px;
+  flex-grow: 1;
+  flex-basis: 100%;
 }
-.cell{
-  font-size: 2.5vw;
-  min-height:75px;
-  flex-grow:1;
-  flex-basis:100%;
-}
+
 .columns {
-  text-align: center;  
+  text-align: center;
   float: left;
   width: 50%;
 }
+
 .right-column {
   float: right;
   width: 50%;
 }
+
 /* Clear floats after the columns */
 .row:after {
-  font-size: 2.5vw;
   content: "";
   display: table;
   clear: both;

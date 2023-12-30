@@ -1,236 +1,182 @@
-var cost = 0;
-const senior = 1;
-const military = 2;
-const insider = 3;
-const taxRate = 1.0825;
+var cost = 0
+const taxRate = 1.0825
+const senior = 1,
+  military = 2,
+  insider = 3
+const next = 0,
+  plus = 1,
+  go5g = 2,
+  max = 3,
+  magenta = 4,
+  essentials = 5,
+  hint = 6
+const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
+var hasHint,
+  autoPay,
+  freeLine,
+  lineCount,
+  ratePlanIndex,
+  discountIndex,
+  discountTypeIndex
 
-const go5GLineCost = [[80, 60, 30], [60, 30, 45], [65, 35, 15]];
-const go5GPlusLineCost = [[95, 65, 40], [75, 35, 55], [80, 40, 30]];
-const go5GNextLineCost = [[105, 75, 50], [85, 45, 65], [90, 50, 40]];
+const protectionTiers = [25, 18, 16, 13, 9, 7, 0]
+const planCostArr = [
+  [
+    // go5gnext
+    [105, 75, 50], // regular cost
+    [85, 45, 65], // senior cost
+    [90, 50, 40], // military cost
+    [105, 75, 50] // insider cost
+  ],
+  [
+    //go5gplus
+    [95, 65, 40], // regular cost
+    [75, 35, 55], // senior cost
+    [80, 40, 30], // military cost
+    [95, 65, 40] // insider cost
+  ],
+  [
+    //go5g
+    [80, 60, 30], // regular cost
+    [60, 30, 45], // senior cost
+    [65, 35, 15], // military cost
+    [80, 60, 30] // insider cost
+  ],
+  [
+    //max
+    [90, 60, 35], // regular cost
+    [70, 30, 50], // senior cost
+    [75, 35, 25], // military cost
+    [90, 60, 35] // insider cost
+  ],
+  [
+    //magenta
+    [75, 55, 25], // regular cost
+    [55, 25, 40], // senior cost
+    [60, 30, 15], // military cost
+    [75, 55, 25] // insider cost
+  ],
+  [
+    //essentials
+    [65, 35, 20], // regular cost
+    [45, 20], // senior cost
+    [0, 0, 0], // military cost
+    [65, 35, 20] // insider cost
+  ],
+  [35, 35, 45, 35, 45, 45] //hint
+]
 
-const maxLineCost = [[90, 60, 35], [70, 30, 50], [75, 35, 25]];
-const magentaLineCost = [[75, 55, 25], [55, 25, 40], [60, 30, 15]];
-const essentialsLineCost = [[65, 35, 20], [45, 20], [0, 0, 0]];
-const protectionTiers = [25, 18, 16, 13, 9, 7, 0];
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
+function updateVariables () {
+  // reset cost for new calculation
+  cost = 0
 
-function displayPrice() {
-    var lineCount = document.getElementById('lineCount').value;
-    var freeLine = document.getElementById('freeLine').checked;
-    var discountIndex = document.getElementById('discountIndex').selectedIndex;
-    var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
+  // update all html variables
+  hasHint = document.getElementById('hint').checked
+  autoPay = document.getElementById('autopay').checked
+  freeLine = document.getElementById('freeLine').checked
+  lineCount = document.getElementById('lineCount').value
+  ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex
+  discountIndex = document.getElementById('discountIndex').selectedIndex
 
-    document.getElementById('monthlyPrice').innerHTML = "Monthly Cost: $" + parseFloat(cost).toFixed(2);
+  for (var i = 1; i <= 8; i++) {
+    hideElement('1p360l')
+    hideElement(i.toString() + 'p360')
+  }
 
-    if (lineCount > 6 && ratePlanIndex == 5)
-        document.getElementById('monthlyPrice').innerHTML = "Essentials is limited to six lines";
-
-
-    switch (discountIndex) {
-        case senior:
-            if (freeLine) 
-                document.getElementById('monthlyPrice').innerHTML = "55+ is not Eligible for Free Line"
-            else if (lineCount > 2 && ratePlanIndex === 5)
-                document.getElementById('monthlyPrice').innerHTML = "Essentials 55+ is limited to 2 lines";
-            else if (lineCount > 4)
-                document.getElementById('monthlyPrice').innerHTML = "55+ Plans are limited to 4 lines";
-            break;
-        case military:
-            if (freeLine) 
-                document.getElementById('monthlyPrice').innerHTML = "Military is not Eligible for Free Line"
-            if (ratePlanIndex === 5)
-                document.getElementById('monthlyPrice').innerHTML = "Military plan cannot be used with Essentials";
-            break;
-        case insider:
-            if (ratePlanIndex > 1)
-                document.getElementById('monthlyPrice').innerHTML = "Insider code can only be used with Go5G Plus/Next";
-            break;
-    }
-
-    if (lineCount > 8)
-        document.getElementById('monthlyPrice').innerHTML = "This tool is limited to calculating only up to 8 lines";
+  for (var i = 1; i <= lineCount; i++) {
+    var insuranceTier = document.getElementById(i.toString() + 'p360').selectedIndex
+    cost += protectionTiers[Number(insuranceTier)] * 1.0825
+    showElement('1p360l')
+    showElement(i.toString() + 'p360')
+  }
 }
 
-function calculatePrice() {
-    updateP360();
-    //calculateDownPayment();
-    var hint = document.getElementById('hint').checked
-    var autoPay = document.getElementById('autopay').checked;
-    var freeLine = document.getElementById('freeLine').checked;
-    var lineCount = document.getElementById('lineCount').value;
-    var ratePlanIndex = document.getElementById('ratePlanIndex').selectedIndex;
-    var discountIndex = document.getElementById('discountIndex').selectedIndex;
-    var discountTypeIndex = (discountIndex === senior) ? 1 : (discountIndex == military) ? 2 : 0;
+function calculatePrice () {
+  // ensure everything is up to date
+  updateVariables()
 
-    var hintAutopay = (hint && autoPay) ? true : false;
-    console.log("hintAutopay Value: " + hintAutopay);
+  // iterate through each line to calculate the cost
+  for (let line = 0; line < lineCount; line++) {
+    // we dont charge for 3rd line at tmobile!!
+    if (line == 2 && freeLine) continue
 
-     for (var line = 0; line < lineCount; line++) {
+    // Calculate line cost
+    cost += planCostArr[ratePlanIndex][discountIndex][clamp(line, 0, 2)]
 
-        if (line == 2 && freeLine) {
-            if (ratePlanIndex === 0) // go5G Next
-                cost += (go5GNextLineCost[discountTypeIndex][clamp(line, 0, 2)] - 35);
-            else
-                continue;
-        } else {
-            switch (ratePlanIndex) {
-                case 7: // go5G Plus
-                    cost += (go5GPlusLineCost[discountTypeIndex][clamp(line, 0, 2)]);
-                    break;
-                case 6: // go5G
-                    cost += (go5GLineCost[discountTypeIndex][clamp(line, 0, 2)]);
-                    break;
-                case 5: // Essentials
-                    cost += (essentialsLineCost[discountTypeIndex][clamp(line, 0, 2)]);
-                    break;
-                case 4: // Magenta
-                    cost += (magentaLineCost[discountTypeIndex][clamp(line, 0, 2)]);
-                    break;
-                case 3: // Magenta Max
-                    cost += (maxLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
-                    break;
-                case 2: // Go5G
-                cost += (go5GLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
-                    break;
-                case 1: // Go5G Plus
-                cost += (go5GPlusLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
-                    break;
-                case 0: // go5G Next
-                    cost += (go5GNextLineCost[+discountTypeIndex][clamp(line, 0, 2)]);
-                    break;
-            }
-        }
-        
-        // up to 8 lines with $5 autopay discount
-        if (line <= (7 - hintAutopay) && autoPay) {
-            cost -= 5;
-        }
-
-        if (line > 7)
-            cost += 5;
+    // autopay discount limited to 8 lines, future proofing this 
+    if (line + hasHint < 8 && autoPay) {
+      cost -= 5
     }
+  }
 
-    // insider code is 20% off and can only be used on max
-    if (discountIndex === insider && ratePlanIndex <= 1) {
-        cost *= 0.80;
-    }
+  // insider code is 20% off and can only be used on max
+  if (discountIndex === insider && ratePlanIndex <= plus) cost *= 0.8
 
-    // add the cost before that way taxes get calculated if needed. 
-    cost += Number(document.getElementById('additionalCostInput').value);
+  // add the cost before that way taxes get calculated if needed.
+  cost += Number(document.getElementById('additionalCostInput').value)
 
-    if (lineCount == 0 && hint)
-        cost += autoPay ? 50 : 55;
-    else if (hint) {
-        switch (ratePlanIndex) {
-            case 5: cost += (autoPay) ? 40 : 45; break;
-            case 4: cost += autoPay ? 40 : 45; break;
-            case 3: cost += autoPay ? 30 : 35; break;
-            case 2: cost += autoPay ? 40 : 45; break;
-            case 1: cost += autoPay ? 30 : 35; break;
-            case 0: cost += autoPay ? 30 : 35; break;
-        }
-    }
+  if (lineCount == 0 && hasHint) cost += autoPay ? 55 : 50
+  else if (hasHint) {
+    cost += planCostArr[hint][ratePlanIndex]
+    cost -= autoPay ? 5 : 0
+  }
 
-    // All plans except Essentials are tax inclusive
-    if (ratePlanIndex == 5) {
-        cost *= 1.0825;
-    }
+  // All plans except Essentials are tax inclusive
+  if (ratePlanIndex == essentials) {
+    cost *= 1.0825
+  }
 
-    // do this after because taxes paid up front. 
-    cost += Number(document.getElementById('deviceCostInput').value);
+  // do this after because taxes paid up front.
+  cost += Number(document.getElementById('deviceCostInput').value)
 
-    displayPrice();
+  displayPrice()
 }
 
-function hideElement(label) {
-    var element = document.getElementById(label);
-    element.style.display = "none";
+function displayPrice () {
+  // update the price this will be overridden later if there is any errors
+  updateCostElement('Monthly Cost: $' + parseFloat(cost).toFixed(2))
+
+  if (lineCount > 6 && ratePlanIndex === essentials)
+    updateCostElement('Essentials is limited to six lines')
+
+  switch (discountIndex) {
+    case senior:
+      if (freeLine) updateCostElement('55+ is not Eligible for Free Line')
+      else if (lineCount > 2 && ratePlanIndex === essentials)
+        updateCostElement('Essentials 55+ is limited to 2 lines')
+      else if (lineCount > 4)
+        updateCostElement('55+ Plans are limited to 4 lines')
+      break
+    case military:
+      if (freeLine) updateCostElement('Military is not Eligible for Free Line')
+      if (ratePlanIndex === essentials)
+        updateCostElement('Military plan cannot be used with Essentials')
+      break
+    case insider:
+      if (ratePlanIndex > plus)
+        updateCostElement('Insider code can only be used with Go5G Plus/Next')
+      break
+  }
+
+  // update in the future to work for 12 lines (what can be completed in retail)
+  if (lineCount > 8)
+    updateCostElement('This tool is limited to calculating only up to 8 lines')
 }
 
-function showElement(label) {
-    var element = document.getElementById(label);
-    element.style.display = "initial";
+function hideElement (label) {
+  var element = document.getElementById(label)
+  if (element) {
+    element.style.display = 'none'
+  }
 }
 
-function updateP360() {
-
-    cost = 0;
-    for (var i = 1; i <= 8; i++) {
-        hideElement('1p360l');
-        hideElement(i.toString() + 'p360');
-    }
-
-    var lineCount = document.getElementById('lineCount').value;
-    if (lineCount === 0) {
-        return;
-    }
-
-    for (var i = 1; i <= lineCount; i++) {
-        cost += protectionTiers[Number(document.getElementById(i.toString() + 'p360').selectedIndex)] * 1.0825;
-        showElement('1p360l');
-        showElement(i.toString() + 'p360');
-    }
+function showElement (label) {
+  var element = document.getElementById(label)
+  if (element) {
+    element.style.display = 'initial'
+  }
 }
 
-/*
-function calculateDownPayment() {
-    var todayCost = 0;
-    var monthlyDeviceCost = 0;
-    var monthlyAccessoryCost = 0;
-    var downPayment = 0;
-    var activationCost = 0;
-    var accessoryDownPayment = 0;
-
-    var DCCNumber = document.getElementById('DCCNumber').value;
-    var deviceCostInput = document.getElementById('deviceCostInput2').value;
-    var downPaymentInput = document.getElementById('downPaymentInput').value;
-    var promoCreditInput = document.getElementById('promoCreditInput').value;
-    var accessoryCostInput = document.getElementById('accessoryCostInput').value;
-    var financingLimitInput = document.getElementById('financingLimitInput').value;
-    var currentEIPBalanceInput = document.getElementById('currentEIPBalanceInput').value;
-    
-    var accessoryDownCheck = document.getElementById('halfDownCheck').checked;
-    var accessoryFinanceCheck = document.getElementById('accessoryFinanceCheck').checked;
-    
-    var financedCost = (deviceCostInput - downPaymentInput);
-    var availableFinancing = (financingLimitInput - currentEIPBalanceInput);
-    
-    // if they wanna finance more than limit then the downpayment is greater of available or standard downpayment.
-    if (financedCost >= availableFinancing) {
-     	downPayment = deviceCostInput - availableFinancing;
-    	financedCost -= downPayment;
-    }
-    else 
-        downPayment = downPaymentInput;
-
-    // number of activations charged * $35
-    activationCost = DCCNumber * 35;
-    
-    // financing accessories?
-    if (accessoryFinanceCheck) {
-        // 50% downpayment on the accessories. 
-        if (accessoryDownCheck) {
-        	monthlyAccessoryCost = accessoryDownPayment = accessoryCostInput * 0.5;
-        }
-        else {
-        	monthlyAccessoryCost = accessoryCostInput;
-        } 
-    }
-    else // not financing so full cost. 
-        accessoryDownPayment = accessoryCostInput;
-
-    var taxes = (parseFloat(deviceCostInput) + parseFloat(accessoryCostInput) + parseFloat(activationCost)) * (taxRate - 1);
-    todayCost = parseFloat(downPayment) + parseFloat(taxes) + parseFloat(accessoryDownPayment) + parseFloat(activationCost);
-	monthlyDeviceCost = (parseFloat(financedCost) - parseFloat(promoCreditInput)) / 24;
-	monthlyAccessoryCost = parseFloat(monthlyAccessoryCost) / 12;
-	
-	var monthlyCost = parseFloat(monthlyDeviceCost) + parseFloat(monthlyAccessoryCost);
-	
-	console.log(monthlyDeviceCost);
-	console.log(monthlyAccessoryCost);
-	
-    // update the price on user end. 
-    document.getElementById('todayPrice').innerHTML = "Today's Cost: $" + parseFloat(todayCost).toFixed(2);
-    document.getElementById('monthlyDevicePrice').innerHTML = "Monthly Device Cost: $" + parseFloat(monthlyCost).toFixed(2);
+function updateCostElement (value) {
+  document.getElementById('monthlyPrice').innerHTML = value
 }
-*/
