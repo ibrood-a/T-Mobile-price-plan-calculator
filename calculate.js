@@ -98,9 +98,9 @@ function calculatePrice () {
   // iterate through each line to calculate the cost
   for (let line = 0; line < lineCount; line++) {
     // we dont charge for 3rd line at tmobile!!
-    if (line == 2 && freeLine) continue
-
-    // Calculate line cost
+    if (line == 2 && freeLine && ratePlanIndex != 0) continue
+    if (line == 2 && freeLine && ratePlanIndex != 0) cost += 15
+    else
     cost += planCostArr[ratePlanIndex][discountIndex][clamp(line, 0, 2)]
 
     // autopay discount limited to 8 lines, future proofing this 
@@ -115,7 +115,7 @@ function calculatePrice () {
   // add the cost before that way taxes get calculated if needed.
   cost += Number(document.getElementById('additionalCostInput').value)
 
-  if (lineCount == 0 && hasHint) cost += autoPay ? 55 : 50
+  if (lineCount == 0 && hasHint) cost += autoPay ? 65 : 60
   else if (hasHint) {
     cost += planCostArr[hint][ratePlanIndex]
     cost -= autoPay ? 5 : 0
