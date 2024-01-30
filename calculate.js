@@ -99,9 +99,8 @@ function calculatePrice () {
   for (let line = 0; line < lineCount; line++) {
     // we dont charge for 3rd line at tmobile!!
     if (line == 2 && freeLine && ratePlanIndex != 0) continue
-    if (line == 2 && freeLine && ratePlanIndex != 0) cost += 15
-    else
-    cost += planCostArr[ratePlanIndex][discountIndex][clamp(line, 0, 2)]
+    if (line == 2 && freeLine && ratePlanIndex == 0) cost += 15
+    else cost += planCostArr[ratePlanIndex][discountIndex][clamp(line, 0, 2)]
 
     // autopay discount limited to 8 lines, future proofing this 
     if (line + hasHint < 8 && autoPay) {
