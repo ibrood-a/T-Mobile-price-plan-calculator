@@ -63,7 +63,7 @@ const planCostArr = [
     [0, 0, 0], // military cost
     [65, 35, 20] // insider cost
   ],
-  [35, 35, 45, 35, 45, 45] //hint
+  [45, 45, 55, 45, 55, 55] //hint
 ]
 
 function updateVariables () {
